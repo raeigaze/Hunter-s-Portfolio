@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HUNTER — Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Full design retained from the fixed portfolio file. */
+</style>
+</head>
+<body>
+<div id="portfolio"></div>
+<script>
+/* Video performance layer retained. */
+const projects=[
+ {t:"Launch Day Hook",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-01.mp4",poster:"posters/saas-01.jpg"},
+ {t:"Onboarding Flow Cut",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-02.mp4",poster:"posters/saas-02.jpg"},
+ {t:"Feature Drop Reel",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-03.mp4",poster:"posters/saas-03.jpg"},
+ {t:"Product Update Teaser",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-04.mp4",poster:"posters/saas-04.jpg"},
+ {t:"Founder Story Cut",c:"talk",label:"Talking Head",ratio:"portrait",src:"videos/talk-01.mp4",poster:"posters/talk-01.jpg"},
+ {t:"Podcast Highlight",c:"talk",label:"Talking Head",ratio:"portrait",src:"videos/talk-02.mp4",poster:"posters/talk-02.jpg"},
+ {t:"Interview Cutdown",c:"talk",label:"Talking Head",ratio:"landscape",src:"videos/talk-03.mp4",poster:"posters/talk-03.jpg"}
+];
+// The existing visual portfolio should be served from the root index.html.
+// Videos are loaded only near the viewport and prioritized on interaction.
+const root=document.getElementById('portfolio');
+root.innerHTML=`<main style="font-family:Inter,system-ui;color:#f2f3f5;background:#08090c;min-height:100vh;padding:40px 6vw"><h1 style="font-family:Sora,sans-serif">HUNTER.</h1><p style="color:#9a9ea8">Video Editor · Motion Designer</p><div id="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px"></div></main>`;
+const grid=document.getElementById('grid');
+grid.innerHTML=projects.map((p,i)=>`<article class="card" data-i="${i}" style="position:relative;aspect-ratio:9/13;overflow:hidden;border-radius:18px;background:#14161d"><video class="vid" muted loop playsinline preload="none" poster="${p.poster}" data-src="${p.src}" style="width:100%;height:100%;object-fit:cover"></video><div style="position:absolute;left:16px;bottom:16px">${p.label}<br><strong>${p.t}</strong></div></article>`).join('');
+const videoObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const v=e.target;if(!v.src){v.src=v.dataset.src;v.load();}}}),{rootMargin:'350px 0px'});
+document.querySelectorAll('.vid').forEach(v=>videoObserver.observe(v));
+function load(v){if(!v.src){v.src=v.dataset.src;v.load();}}
+document.querySelectorAll('.card').forEach(card=>{const v=card.querySelector('.vid');card.addEventListener('mouseenter',()=>{load(v);card.classList.add('playing');if(v.readyState>=2)v.play().catch(()=>{});else v.addEventListener('canplay',()=>v.play().catch(()=>{}),{once:true});});card.addEventListener('mouseleave',()=>{v.pause();card.classList.remove('playing')});card.addEventListener('click',()=>{load(v);v.controls=true;v.muted=false;v.play().catch(()=>{});});});
+</script>
+</body>
+</html>
