@@ -218,6 +218,8 @@ footer{padding:30px 6vw;border-top:1px solid var(--line);display:flex;justify-co
 
   <div class="filters reveal">
     <button class="fbtn active" data-f="all">All Work</button>
+    <button class="fbtn" data-f="long">Long-form</button>
+    <button class="fbtn" data-f="short">Short-form</button>
     <button class="fbtn" data-f="saas">SaaS</button>
     <button class="fbtn" data-f="talk">Talking Head</button>
   </div>
@@ -268,6 +270,24 @@ footer{padding:30px 6vw;border-top:1px solid var(--line);display:flex;justify-co
 
 <script>
 const projects=[
+ // Newly uploaded work appears first. Titles and descriptions are intentionally omitted.
+ {t:"",c:"long",label:"Long-form",ratio:"landscape",src:"long%20(1).mp4"},
+ {t:"",c:"long",label:"Long-form",ratio:"landscape",src:"long%20(2).mp4"},
+ {t:"",c:"long",label:"Long-form",ratio:"landscape",src:"long%20(3).mp4"},
+ {t:"",c:"long",label:"Long-form",ratio:"landscape",src:"long%20(4).mp4"},
+ {t:"",c:"long",label:"Long-form",ratio:"landscape",src:"videos/long.mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/RYfQo3PvVRPtKnr2YDEMU5MCZs.mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/plDAUdwmdC3mlfOAwwYshIhQhgc.mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short.mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(1).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(2).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(3).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(4).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(5).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(8).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(10).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/short%20(11).mp4"},
+ {t:"",c:"short",label:"Short-form",ratio:"portrait",src:"videos/Short%20(12).mp4"},
  {t:"Launch Day Hook",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-01.mp4",poster:"posters/saas-01.jpg"},
  {t:"Onboarding Flow Cut",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-02.mp4",poster:"posters/saas-02.jpg"},
  {t:"Feature Drop Reel",c:"saas",label:"SaaS",ratio:"landscape",src:"videos/saas-03.mp4",poster:"posters/saas-03.jpg"},
@@ -284,7 +304,7 @@ grid.innerHTML=projects.map((p,i)=>`
    <div class="livepill"><i></i>PLAYING</div>
    <div class="playbadge"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
    <button class="mutebtn" data-mute="1">🔇</button>
-   <div class="meta"><span class="cat">${p.label}</span><h3>${p.t}</h3></div>
+   <div class="meta"><span class="cat">${p.label}</span>${p.t ? `<h3>${p.t}</h3>` : ""}</div>
  </div>`).join('');
 
 /* reveal on scroll */
@@ -359,7 +379,7 @@ function openModal(card){
   modalBox.setAttribute('data-ratio',p.ratio);
   const cardVid=card.querySelector('.vid');
   cardVid.pause();
-  modalInfo.textContent=p.label+' · '+p.t;
+  modalInfo.textContent=p.t ? p.label+' · '+p.t : p.label;
   modalVideo.src=p.src;
   modalVideo.preload='auto';
   modalVideo.muted=false;
